@@ -32,7 +32,7 @@ PING_GOOGLE = getattr(settings, 'STATICSITEMAPS_PING_GOOGLE', True)
 
 # Template for sitemap index.
 INDEX_TEMPLATE = getattr(settings, 'STATICSITEMAPS_INDEX_TEMPLATE',
-                         'static_sitemaps/sitemap_index.xml')
+                         'static_sitemaps/sitemap_index.html')
 
 # Storage class to use.
 STORAGE_CLASS = getattr(settings, 'STATICSITEMAPS_STORAGE', 'django.core.files.storage.FileSystemStorage')

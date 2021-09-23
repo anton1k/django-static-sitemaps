@@ -163,7 +163,7 @@ class SitemapGenerator(object):
         lastmods = [lastmod for lastmod in [u.get('lastmod') for u in urls] if lastmod is not None]
         file_lastmod = max(lastmods) if len(lastmods) > 0 else None
         path = os.path.join(conf.ROOT_DIR, filename)
-        template = getattr(site, 'sitemap_template', 'sitemap.xml')
+        template = getattr(site, 'sitemap_template', 'sitemap.html')
 
         if self.storage.exists(path):
             old_page_md5 = self.read_hash(path)
