@@ -101,6 +101,42 @@ Running as celery task
 
 If you run celery as your task runner, you should be ready to go out of the box. django-static-sitemaps includes the ``GenerateSitemap`` task which will be automatically run each ``STATICSITEMAPS_REFRESH_AFTER`` minutes (defaults to 60 ~ 1 hour). You can optionally bypass it by setting it to ``None``.
 
+Add in `settings.py`
+
+```python
+STATICSITEMAPS_REFRESH_AFTER =30
+```
+
+Add in `celery.py`
+
+```python
+import os
+
+from static_sitemaps import conf
+
+from celery import Celery
+from celery.schedules import crontab
+
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'proj.settings')
+
+
+app = Celery('proj')
+
+app.config_from_object('django.conf:settings', namespace='CELERY')
+app.autodiscover_tasks()
+
+app.conf.broker_url = 'redis://localhost:6379/0'
+
+app.conf.beat_schedule = {
+    'periodic_generate_sitemap': {
+        'task': 'static_sitemaps.tasks.generate_sitemap',
+        'schedule': crontab(minute=f'*/{conf.CELERY_TASK_REPETITION}')
+    }
+}
+
+```
+
+
 Advanced settings
 ------------------
 
